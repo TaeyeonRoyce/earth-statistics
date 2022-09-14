@@ -3,11 +3,13 @@ package model;
 public class WineInfo implements Comparable<WineInfo>{
 
 	private final String wineTitle;
-	private Integer price;
+	private final Integer price;
+	private final Double rate;
 
-	public WineInfo(String wineTitle, Integer price) {
+	public WineInfo(String wineTitle, Integer price, Double rate) {
 		this.wineTitle = wineTitle;
 		this.price = price;
+		this.rate = rate;
 	}
 
 	public String getWineTitle() {
@@ -18,11 +20,16 @@ public class WineInfo implements Comparable<WineInfo>{
 		return this.price;
 	}
 
+	public Double getRate() {
+		return rate;
+	}
+
 	@Override
 	public String toString() {
 		return "WineInfo{" +
 			"wineTitle='" + wineTitle + '\'' +
 			", price=" + price +
+			", rate=" + rate +
 			'}';
 	}
 

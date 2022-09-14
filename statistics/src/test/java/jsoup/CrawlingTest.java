@@ -10,7 +10,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 
-import crawling.WineSSGCrawler;
+import crawling.WineCrawlResultParser;
+import crawling.WineSSGCrawlerV1;
 import model.WineInfo;
 
 public class CrawlingTest {
@@ -55,12 +56,45 @@ public class CrawlingTest {
 	@Test
 	public void wineSSGCrawlerTest() throws InterruptedException {
 
-		WineSSGCrawler wineSSGCrawler = new WineSSGCrawler();
+		WineSSGCrawlerV1 wineSSGCrawler = new WineSSGCrawlerV1();
 		List<WineInfo> wineInfosFromSSGIndex =
 			wineSSGCrawler.getWineInfosFromSSGIndex(1,15);
 
 		for (WineInfo infosFromSSGIndex : wineInfosFromSSGIndex) {
 			System.out.println(infosFromSSGIndex.toString());
+		}
+	}
+
+	@Test
+	public void crawlingWithRateTest() {
+
+		final String emartWineUrl =
+			"https://www.ssg.com/search/jsonSearch.ssg?target=item&query=%EC%99%80%EC%9D%B8&ctgId=6000099420&ctgLv=2&page=";
+		int page = 1;
+
+		Connection conn = Jsoup.connect(emartWineUrl + page);
+
+		try {
+			Document document = conn.get();
+			Elements wineNameList = document
+				.select("li[class=cunit_t232]")
+				.select("div[class=cunit_info]");
+
+			for (Element element : wineNameList) {
+				Elements wineRateElement = element.select("div.cunit_app > div.rating > div.rate_bg > span > span.blind");
+
+				if (wineRateElement.size() == 1) {
+					Element winePriceElement = element.select("div.cunit_price > div.opt_price > em.ssg_price").get(0);
+					Integer winePrice = WineCrawlResultParser.parseWinePrice(winePriceElement);
+					Double wineRate = WineCrawlResultParser.parseWineRate(wineRateElement.get(0));
+
+					System.out.println(winePrice);
+					System.out.println(wineRate);
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
