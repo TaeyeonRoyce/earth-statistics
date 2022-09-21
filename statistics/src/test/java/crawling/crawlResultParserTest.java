@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-class WineCrawlResultParserTest {
+class crawlResultParserTest {
 	@Test
 	public void nameParseTest() {
 	    //given

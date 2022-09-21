@@ -2,7 +2,7 @@ package crawling;
 
 import org.jsoup.nodes.Element;
 
-public class WineCrawlResultParser {
+public class crawlResultParser {
 
 	public static String parseWineName(Element wineNameElement) {
 		// [매장픽업] 앙드레 끌루에 샹파뉴 초키 => 앙드레 끌루에 샹파뉴 초키

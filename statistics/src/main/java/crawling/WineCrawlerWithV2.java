@@ -43,12 +43,14 @@ public class WineCrawlerWithV2 extends WineSSGCrawler {
 				Element wineNameElement = element.select("div.cunit_md > div.title > a.clickable > em.tx_ko").get(0);
 				Element winePriceElement = element.select("div.cunit_price > div.opt_price > em.ssg_price").get(0);
 
-				String wineName = WineCrawlResultParser.parseWineName(wineNameElement);
-				Integer winePrice = WineCrawlResultParser.parseWinePrice(winePriceElement);
-				Double wineRate = WineCrawlResultParser.parseWineRate(wineRateElement.get(0));
+				String wineName = crawlResultParser.parseWineName(wineNameElement);
+				Integer winePrice = crawlResultParser.parseWinePrice(winePriceElement);
+				Double wineRate = crawlResultParser.parseWineRate(wineRateElement.get(0));
 
 				WineInfo wineInfo = new WineInfo(wineName, winePrice, wineRate);
 				result.add(wineInfo);
+
+				System.out.println("wineInfo = " + wineInfo);
 			}
 
 		} catch (IOException e) {

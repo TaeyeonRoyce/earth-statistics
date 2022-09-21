@@ -26,8 +26,8 @@ public class WineInfo implements Comparable<WineInfo>{
 
 	@Override
 	public String toString() {
-		return "WineInfo{" +
-			"wineTitle='" + wineTitle + '\'' +
+		return "WineInfo{ " +
+			"wineTitle='" + wineTitle +
 			", price=" + price +
 			", rate=" + rate +
 			'}';

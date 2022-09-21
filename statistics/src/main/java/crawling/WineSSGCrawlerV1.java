@@ -41,8 +41,8 @@ public class WineSSGCrawlerV1 extends WineSSGCrawler {
 				Element wineNameElement = wineNameList.get(i);
 				Element winePriceElement = winePriceList.get(i);
 
-				String wineName = WineCrawlResultParser.parseWineName(wineNameElement);
-				Integer winePrice = WineCrawlResultParser.parseWinePrice(winePriceElement);
+				String wineName = crawlResultParser.parseWineName(wineNameElement);
+				Integer winePrice = crawlResultParser.parseWinePrice(winePriceElement);
 
 				WineInfo wineInfo = new WineInfo(wineName, winePrice, null);
 				result.add(wineInfo);

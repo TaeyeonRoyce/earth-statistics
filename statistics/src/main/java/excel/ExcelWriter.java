@@ -13,14 +13,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import crawling.BeverageCrawler;
 import crawling.WineCrawlerWithV2;
 import crawling.WineSSGCrawler;
 import crawling.WineSSGCrawlerV1;
+import model.Beverage;
 import model.WineInfo;
 
 public class ExcelWriter {
 
 	private WineSSGCrawler wineSSGCrawler;
+	private BeverageCrawler beverageCrawler;
 
 	/**
 	 * WineInfo V1 contains (name, price)
@@ -112,6 +115,46 @@ public class ExcelWriter {
 			}
 
 			try (FileOutputStream fos = new FileOutputStream("wine_info.xlsx")) {
+				workbook.write(fos);
+			}
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void writeBeverageInfoV1() throws InterruptedException {
+		this.beverageCrawler = new BeverageCrawler();
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Sheet sheet = workbook.createSheet("음료수 정보");
+			int headerRowNum = 3;
+			Row headerRow = sheet.createRow(headerRowNum);
+
+			int wineNameColumnNumber = 2;
+			int winePriceColumnNumber = 3;
+			headerRow.createCell(wineNameColumnNumber).setCellValue("음료 상품 이름");
+			headerRow.createCell(winePriceColumnNumber).setCellValue("음료 가격");
+
+			CellStyle headStyle = workbook.createCellStyle();
+			headStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_YELLOW.getIndex());
+			headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+			headerRow.getCell(wineNameColumnNumber).setCellStyle(headStyle);
+			headerRow.getCell(winePriceColumnNumber).setCellStyle(headStyle);
+
+			List<Beverage> beverageInfosFromSSGIndex = beverageCrawler.getBeverageInfosFromSSGIndex(1, 3);
+
+			int valueRowNum = headerRowNum + 1;
+			for (Beverage beverage : beverageInfosFromSSGIndex) {
+				String beverageName = beverage.getBeverageName();
+				int beveragePrice = beverage.getPrice();
+
+				Row row = sheet.createRow(valueRowNum++);
+				row.createCell(wineNameColumnNumber).setCellValue(beverageName);
+				row.createCell(winePriceColumnNumber).setCellValue(beveragePrice);
+			}
+
+			try (FileOutputStream fos = new FileOutputStream("beverage_info.xlsx")) {
 				workbook.write(fos);
 			}
 

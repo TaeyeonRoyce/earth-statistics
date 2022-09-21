@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 
-import crawling.WineCrawlResultParser;
+import crawling.crawlResultParser;
 import crawling.WineSSGCrawlerV1;
 import model.WineInfo;
 
@@ -85,8 +85,8 @@ public class CrawlingTest {
 
 				if (wineRateElement.size() == 1) {
 					Element winePriceElement = element.select("div.cunit_price > div.opt_price > em.ssg_price").get(0);
-					Integer winePrice = WineCrawlResultParser.parseWinePrice(winePriceElement);
-					Double wineRate = WineCrawlResultParser.parseWineRate(wineRateElement.get(0));
+					Integer winePrice = crawlResultParser.parseWinePrice(winePriceElement);
+					Double wineRate = crawlResultParser.parseWineRate(wineRateElement.get(0));
 
 					System.out.println(winePrice);
 					System.out.println(wineRate);
