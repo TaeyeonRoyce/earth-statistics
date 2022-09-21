@@ -9,12 +9,12 @@ plt.rcParams['axes.unicode_minus'] = False
 pathName = '../statistics/wine_info.xlsx'
 
 df = pd.read_excel(pathName, engine='openpyxl')
-priceList = df.iloc[4:1082, 4].values.tolist()
+priceList = df.iloc[4:713, 5].values.tolist()
 priceAverage = st.mean(priceList)
 priceMedian = st.median(priceList)
 
 xRangeMin = 4000
-xRangeMax = 200000
+xRangeMax = 250000
 xRange = np.arange(xRangeMin, xRangeMax, 10000)
 
 

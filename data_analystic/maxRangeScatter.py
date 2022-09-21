@@ -12,6 +12,11 @@ df = pd.read_excel(pathName, engine='openpyxl')
 priceList = df.iloc[4:672, 5].values.tolist()
 rateList = df.iloc[4:672, 7].values.tolist()
 
+data = {"priceList": priceList, "rateList": rateList}
+dfCorr = pd.DataFrame(data)
+print(dfCorr.corr(method='pearson'))
+
+
 yRange = np.arange(0, 5, 0.3)
 plt.scatter(priceList, rateList)
 plt.xlabel("와인 가격", fontsize=16)
