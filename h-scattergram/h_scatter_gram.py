@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def auto_correlation_coefficient(one_dimension_data, lag):
+def slide_as_lag(one_dimension_data, lag):
     if lag == 0:
         print("Lag은 0보다 큰 자연수 이어야 합니다")
         return
@@ -9,14 +9,14 @@ def auto_correlation_coefficient(one_dimension_data, lag):
     z = one_dimension_data[: -lag]
     z_lag = one_dimension_data[lag:]
 
-    z_np = np.array(z)
-    z_lag_np = np.array(z_lag)
-
-    print(correlation_coefficient(z_np, z_lag_np))
+    return [z, z_lag]
 
 
 def correlation_coefficient(data1, data2):
     n = len(data1)
+
+    data1 = np.array(data1)
+    data2 = np.array(data2)
 
     data1.reshape(n, 1)
     data2.reshape(n, 1)
@@ -34,4 +34,3 @@ def correlation_coefficient(data1, data2):
     r = (co_std - bias) / std
 
     return round(r, 4)
-
