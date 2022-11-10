@@ -29,5 +29,3 @@ if __name__ == '__main__':
             i * 5, correlation_coefficient))
     plt.suptitle("Z = {}".format(data_set[1]))
     plt.show()
-
-# for data in data_set:
