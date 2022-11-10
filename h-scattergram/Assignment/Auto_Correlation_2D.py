@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from h_scatter_gram import correlation_coefficient
+
 
 def data_set():
     return [
@@ -59,48 +61,20 @@ def convert_to_value(combine_set, data_set):
     return [value_A, value_B]
 
 
-def correlation_coefficient(data1, data2):
-    n = len(data1)
-
-    data1 = np.array(data1)
-    data2 = np.array(data2)
-
-    data1.reshape(n, 1)
-    data2.reshape(n, 1)
-
-    m = np.average(data1)
-    slide_m = np.average(data2)
-
-    z_std = np.sqrt(sum(pow(data1 - m, 2)))
-    z_lag_std = np.sqrt(sum(pow(data2 - slide_m, 2)))
-
-    co_std = sum(data1 * data2)
-    bias = n * m * slide_m
-
-    std = z_std * z_lag_std
-    r = (co_std - bias) / std
-
-    return round(r, 4)
-
-
-def method_name(data_set, h):
+def coefficient_2D_by_lag(data_set, h):
     total_distance = get_distance(data_set)
-    print(total_distance)
     combined_set = combine_by_h(total_distance, h)
-    print(combined_set)
     value_set = convert_to_value(combined_set, data_set)
     coefficient = correlation_coefficient(value_set[0], value_set[1])
-    print(coefficient)
 
     return coefficient
 
 
-at_5 = method_name(data_set(), 5)
-at_10 = method_name(data_set(), 10)
-at_15 = method_name(data_set(), 15)
-
-h = [5, 10, 15]
-h_corr = [at_5, at_10, at_15]
+h = []
+h_corr = []
+for i in range(0, 16):
+    h.append(i)
+    h_corr.append(coefficient_2D_by_lag(data_set(), i))
 
 plt.plot(h, h_corr, marker='s', color='r')
 for i, v in enumerate(h):
